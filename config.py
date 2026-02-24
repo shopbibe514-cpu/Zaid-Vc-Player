@@ -18,13 +18,13 @@ SESSION_NAME = getenv("SESSION_NAME", "ZaidVCBot")
 BOT_NAME = getenv("BOT_NAME", "Umk")
 
 # ==============================
-# Required Credentials (Fixed)
+# Required Credentials
 # ==============================
 
 try:
     API_ID = int(getenv("API_ID"))
-except (TypeError, ValueError):
-    API_ID = 0  # Default or invalid value
+except:
+    API_ID = 0
 
 API_HASH = getenv("API_HASH", "")
 BOT_TOKEN = getenv("BOT_TOKEN", "")
@@ -34,7 +34,6 @@ BOT_TOKEN = getenv("BOT_TOKEN", "")
 # ==============================
 
 STRING_SESSION = getenv("STRING_SESSION", "")
-
 SESSION2 = getenv("STRING_SESSION2", "")
 SESSION3 = getenv("STRING_SESSION3", "")
 SESSION4 = getenv("STRING_SESSION4", "")
@@ -52,10 +51,7 @@ MONGO_DB_URL = getenv("MONGO_DB_URL", "")
 
 OWNER_NAME = getenv("OWNER_NAME", "Zaid")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "Timesisnotwaiting")
-try:
-    OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
-except ValueError:
-    OWNER_ID = 1669178360
+OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
 
 ASSISTANT_NAME = getenv("ASSISTANT_NAME", "Zaid2_Assistant")
 GROUP_SUPPORT = getenv("GROUP_SUPPORT", "TheSupportChat")
@@ -92,10 +88,7 @@ NEXT_IMG = getenv("NEXT_IMG", "https://telegra.ph/file/f02efde766160d3ff52d6.png
 # Limits
 # ==============================
 
-try:
-    DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
-except ValueError:
-    DURATION_LIMIT = 60
+DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
 
 # ==============================
 # Upstream Repo
@@ -107,15 +100,8 @@ UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/ITZ-ZAID/Zaid-Vc-Pla
 # Safety Check
 # ==============================
 
-MISSING_VARS = []
-if not BOT_TOKEN:
-    MISSING_VARS.append("BOT_TOKEN")
-if not API_ID or API_ID == 0:
-    MISSING_VARS.append("API_ID")
-if not API_HASH:
-    MISSING_VARS.append("API_HASH")
-
-if MISSING_VARS:
-    raise ValueError(f"Missing required environment variables: {', '.join(MISSING_VARS)}")
-else:
-    print("✅ All required config variables loaded successfully!")
+if not BOT_TOKEN or not API_ID or not API_HASH:
+    print("⚠️ Warning: Some required variables are missing!")
+    print(f"BOT_TOKEN: {'✓' if BOT_TOKEN else '✗'}")
+    print(f"API_ID: {'✓' if API_ID else '✗'}")
+    print(f"API_HASH: {'✓' if API_HASH else '✗'}")
