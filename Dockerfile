@@ -1,6 +1,5 @@
 FROM python:3.10-slim
 
-# Install system dependencies and set timezone
 RUN apt-get update -y && \
     apt-get install -y ffmpeg tzdata && \
     ln -fs /usr/share/zoneinfo/Asia/Singapore /etc/localtime && \
