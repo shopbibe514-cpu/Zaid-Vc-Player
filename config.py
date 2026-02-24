@@ -22,7 +22,7 @@ BOT_NAME = getenv("BOT_NAME", "Umk")
 # ==============================
 
 try:
-    API_ID = int(getenv("API_ID"))
+    API_ID = int(getenv("API_ID", "0"))
 except:
     API_ID = 0
 
@@ -51,7 +51,11 @@ MONGO_DB_URL = getenv("MONGO_DB_URL", "")
 
 OWNER_NAME = getenv("OWNER_NAME", "Zaid")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "Timesisnotwaiting")
-OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
+
+try:
+    OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
+except:
+    OWNER_ID = 1669178360
 
 ASSISTANT_NAME = getenv("ASSISTANT_NAME", "Zaid2_Assistant")
 GROUP_SUPPORT = getenv("GROUP_SUPPORT", "TheSupportChat")
@@ -88,7 +92,10 @@ NEXT_IMG = getenv("NEXT_IMG", "https://telegra.ph/file/f02efde766160d3ff52d6.png
 # Limits
 # ==============================
 
-DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
+try:
+    DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
+except:
+    DURATION_LIMIT = 60
 
 # ==============================
 # Upstream Repo
@@ -97,11 +104,20 @@ DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
 UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/ITZ-ZAID/Zaid-Vc-Player")
 
 # ==============================
-# Safety Check
+# Safety Check (Warnings Only)
 # ==============================
 
-if not BOT_TOKEN or not API_ID or not API_HASH:
+missing_vars = []
+
+if not BOT_TOKEN:
+    missing_vars.append("BOT_TOKEN")
+if not API_ID:
+    missing_vars.append("API_ID")
+if not API_HASH:
+    missing_vars.append("API_HASH")
+
+if missing_vars:
     print("⚠️ Warning: Some required variables are missing!")
-    print(f"BOT_TOKEN: {'✓' if BOT_TOKEN else '✗'}")
-    print(f"API_ID: {'✓' if API_ID else '✗'}")
-    print(f"API_HASH: {'✓' if API_HASH else '✗'}")
+    for var in missing_vars:
+        print(f"   - {var} is missing!")
+    print("Please add them in Render Environment Variables before deploying.")
