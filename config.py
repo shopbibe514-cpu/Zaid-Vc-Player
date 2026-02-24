@@ -26,8 +26,8 @@ try:
 except (TypeError, ValueError):
     API_ID = 0  # Default or invalid value
 
-API_HASH = getenv("API_HASH")
-BOT_TOKEN = getenv("BOT_TOKEN")
+API_HASH = getenv("API_HASH", "")
+BOT_TOKEN = getenv("BOT_TOKEN", "")
 
 # ==============================
 # Assistant / String Sessions
@@ -104,7 +104,7 @@ except ValueError:
 UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/ITZ-ZAID/Zaid-Vc-Player")
 
 # ==============================
-# Safety Check (Important & Fixed)
+# Safety Check
 # ==============================
 
 MISSING_VARS = []
