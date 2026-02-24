@@ -18,12 +18,16 @@ SESSION_NAME = getenv("SESSION_NAME", "ZaidVCBot")
 BOT_NAME = getenv("BOT_NAME", "Umk")
 
 # ==============================
-# Required Credentials
+# Required Credentials (Fixed)
 # ==============================
 
-API_ID = int(getenv("API_ID", "0"))
-API_HASH = getenv("API_HASH", "")
-BOT_TOKEN = getenv("BOT_TOKEN", "")
+try:
+    API_ID = int(getenv("API_ID"))
+except (TypeError, ValueError):
+    API_ID = 0  # Default or invalid value
+
+API_HASH = getenv("API_HASH")
+BOT_TOKEN = getenv("BOT_TOKEN")
 
 # ==============================
 # Assistant / String Sessions
@@ -40,10 +44,7 @@ SESSION5 = getenv("STRING_SESSION5", "")
 # Mongo Database
 # ==============================
 
-MONGO_DB_URL = getenv(
-    "MONGO_DB_URL",
-    ""
-)
+MONGO_DB_URL = getenv("MONGO_DB_URL", "")
 
 # ==============================
 # Owner & Support
@@ -51,7 +52,10 @@ MONGO_DB_URL = getenv(
 
 OWNER_NAME = getenv("OWNER_NAME", "Zaid")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "Timesisnotwaiting")
-OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
+try:
+    OWNER_ID = int(getenv("OWNER_ID", "1669178360"))
+except ValueError:
+    OWNER_ID = 1669178360
 
 ASSISTANT_NAME = getenv("ASSISTANT_NAME", "Zaid2_Assistant")
 GROUP_SUPPORT = getenv("GROUP_SUPPORT", "TheSupportChat")
@@ -75,67 +79,43 @@ COMMAND_PREFIXES = list(getenv("COMMAND_PREFIXES", "/ ! .").split())
 # Images & Media
 # ==============================
 
-ALIVE_IMG = getenv(
-    "ALIVE_IMG",
-    "https://telegra.ph/file/fc9d87ffd1c6f828eb7fc.png"
-)
-
-START_PIC = getenv(
-    "START_PIC",
-    "https://telegra.ph/file/a414e2cdfeaa7d4414b89.png"
-)
-
-PLAY_IMG = getenv(
-    "PLAY_IMG",
-    "https://telegra.ph/file/10b1f781170b1e1867f68.png"
-)
-
-QUE_IMG = getenv(
-    "QUE_IMG",
-    "https://telegra.ph/file/b95c13eef1ebd14dbb458.png"
-)
-
-CMD_IMG = getenv(
-    "CMD_IMG",
-    "https://telegra.ph/file/66518ed54301654f0b126.png"
-)
-
-VIDEO_IMG = getenv(
-    "VIDEO_IMG",
-    "https://telegra.ph/file/6213d2673486beca02967.png"
-)
-
-SKIP_IMG = getenv(
-    "SKIP_IMG",
-    "https://telegra.ph/file/f02efde766160d3ff52d6.png"
-)
-
-NEXT_IMG = getenv(
-    "NEXT_IMG",
-    "https://telegra.ph/file/f02efde766160d3ff52d6.png"
-)
+ALIVE_IMG = getenv("ALIVE_IMG", "https://telegra.ph/file/fc9d87ffd1c6f828eb7fc.png")
+START_PIC = getenv("START_PIC", "https://telegra.ph/file/a414e2cdfeaa7d4414b89.png")
+PLAY_IMG = getenv("PLAY_IMG", "https://telegra.ph/file/10b1f781170b1e1867f68.png")
+QUE_IMG = getenv("QUE_IMG", "https://telegra.ph/file/b95c13eef1ebd14dbb458.png")
+CMD_IMG = getenv("CMD_IMG", "https://telegra.ph/file/66518ed54301654f0b126.png")
+VIDEO_IMG = getenv("VIDEO_IMG", "https://telegra.ph/file/6213d2673486beca02967.png")
+SKIP_IMG = getenv("SKIP_IMG", "https://telegra.ph/file/f02efde766160d3ff52d6.png")
+NEXT_IMG = getenv("NEXT_IMG", "https://telegra.ph/file/f02efde766160d3ff52d6.png")
 
 # ==============================
 # Limits
 # ==============================
 
-DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
+try:
+    DURATION_LIMIT = int(getenv("DURATION_LIMIT", "60"))
+except ValueError:
+    DURATION_LIMIT = 60
 
 # ==============================
 # Upstream Repo
 # ==============================
 
-UPSTREAM_REPO = getenv(
-    "UPSTREAM_REPO",
-    "https://github.com/ITZ-ZAID/Zaid-Vc-Player"
-)
+UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/ITZ-ZAID/Zaid-Vc-Player")
 
 # ==============================
-# Safety Check (Important)
+# Safety Check (Important & Fixed)
 # ==============================
 
+MISSING_VARS = []
 if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN is missing!")
+    MISSING_VARS.append("BOT_TOKEN")
+if not API_ID or API_ID == 0:
+    MISSING_VARS.append("API_ID")
+if not API_HASH:
+    MISSING_VARS.append("API_HASH")
 
-if not API_ID or not API_HASH:
-    raise ValueError("API_ID or API_HASH is missing!")
+if MISSING_VARS:
+    raise ValueError(f"Missing required environment variables: {', '.join(MISSING_VARS)}")
+else:
+    print("✅ All required config variables loaded successfully!")
