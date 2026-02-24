@@ -7,13 +7,10 @@ youtube-search-python
 youtube-search
 python-dotenv
 dnspython
-asgiref
 aiofiles
 aiohttp
 requests
 pillow
 motor
 psutil
-future
-speedtest-cli
 pymongo
