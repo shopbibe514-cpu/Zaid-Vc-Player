@@ -1,15 +1,14 @@
 FROM python:3.10-slim
 
-# Install system dependencies with NTP for time synchronization
 RUN apt-get update -y && \
-    apt-get install -y ffmpeg tzdata ntpdate && \
-    # Sync time with NTP server to fix Pyrogram error
-    ntpdate -u pool.ntp.org || true && \
-    # Set timezone
-    ln -fs /usr/share/zoneinfo/Asia/Singapore /etc/localtime && \
+    apt-get install -y ffmpeg tzdata && \
+    ln -fs /usr/share/zoneinfo/UTC /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+ENV TZ=UTC
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
@@ -19,4 +18,4 @@ RUN pip install --no-cache-dir -U pip && \
 
 COPY . .
 
-CMD python main.py
+CMD ["python", "main.py"]
