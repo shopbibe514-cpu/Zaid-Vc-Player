@@ -42,9 +42,41 @@ except:
 print(f"📅 Current system time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # ============================================
+# Get configuration from environment variables first
+# ============================================
+print("🔑 Loading configuration...")
+
+# Try to get from environment variables
+API_ID = os.environ.get('API_ID')
+API_HASH = os.environ.get('API_HASH')
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+SESSION_NAME = os.environ.get('SESSION_NAME', 'ZaidVCBot')
+SESSION2 = os.environ.get('SESSION2', None)
+
+# If not in environment, try config.py
+if not API_ID or not API_HASH or not BOT_TOKEN:
+    try:
+        from config import API_HASH, API_ID, BOT_TOKEN, SESSION_NAME, SESSION2
+        print("  ✓ Loaded from config.py")
+    except ImportError:
+        print("❌ ERROR: Missing API_ID, API_HASH, or BOT_TOKEN!")
+        print("Please set them in environment variables or create config.py")
+        sys.exit(1)
+else:
+    # Convert API_ID to int
+    try:
+        API_ID = int(API_ID)
+    except ValueError:
+        print("❌ ERROR: API_ID must be an integer!")
+        sys.exit(1)
+    print("  ✓ Loaded from environment variables")
+
+print(f"  ✓ Bot Token: {BOT_TOKEN[:10]}...")
+print(f"  ✓ Session: {SESSION_NAME}")
+
+# ============================================
 # Imports
 # ============================================
-from config import API_HASH, API_ID, BOT_TOKEN, SESSION_NAME, SESSION2
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 from pytgcalls import PyTgCalls, idle
@@ -70,7 +102,7 @@ app = Client(
 )
 
 # Second client if available
-if SESSION2:
+if SESSION2 and SESSION2 != "None":
     app2 = Client(
         SESSION2,
         api_id=API_ID,
