@@ -1,8 +1,8 @@
 tgcrypto
 ffmpeg-python
 py-tgcalls==0.8.6
-pyrogram==1.4.12
-yt-dlp==2023.3.4
+pyrogram>=2.0.106
+yt-dlp
 youtube-search-python
 youtube-search
 python-dotenv
@@ -13,7 +13,6 @@ aiofiles
 aiohttp
 requests
 pillow
-heroku3
 motor
 psutil
 future
