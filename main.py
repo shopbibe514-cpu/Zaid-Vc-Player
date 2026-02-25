@@ -158,7 +158,6 @@ async def start_bot():
         LOGGER.exception("Startup error")
         raise
     finally:
-        # Cleanup
         print("\n🛑 Shutting down...")
         
         if app2:
