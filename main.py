@@ -17,7 +17,6 @@ LOGGER = logging.getLogger(__name__)
 # ============================================
 print("🕐 Syncing system time...")
 
-# Try multiple NTP servers
 ntp_servers = [
     'pool.ntp.org',
     'time.google.com',
@@ -38,14 +37,12 @@ for server in ntp_servers:
     except:
         pass
 
-# Set timezone
 os.environ['TZ'] = 'Asia/Singapore'
 try:
     time.tzset()
 except:
     pass
 
-# Print current time for debugging
 print(f"📅 Current system time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # ============================================
@@ -53,24 +50,20 @@ print(f"📅 Current system time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 # ============================================
 print("🔑 Loading configuration...")
 
-# Try to get from environment variables
 API_ID = os.environ.get('API_ID')
 API_HASH = os.environ.get('API_HASH')
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 SESSION_NAME = os.environ.get('SESSION_NAME', 'ZaidVCBot')
 SESSION2 = os.environ.get('SESSION2', None)
 
-# If not in environment, try config.py
 if not API_ID or not API_HASH or not BOT_TOKEN:
     try:
         from config import API_HASH, API_ID, BOT_TOKEN, SESSION_NAME, SESSION2
         print("  ✓ Loaded from config.py")
     except ImportError:
         print("❌ ERROR: Missing API_ID, API_HASH, or BOT_TOKEN!")
-        print("Please set them in environment variables or create config.py")
         sys.exit(1)
 else:
-    # Convert API_ID to int
     try:
         API_ID = int(API_ID)
     except ValueError:
@@ -93,7 +86,6 @@ from pytgcalls import PyTgCalls, idle
 # ============================================
 print("🤖 Initializing bot clients...")
 
-# Main client with all fixes
 app = Client(
     SESSION_NAME,
     api_id=API_ID,
@@ -106,7 +98,7 @@ app = Client(
     in_memory=True
 )
 
-# Second client if available
+app2 = None
 if SESSION2 and SESSION2 != "None":
     app2 = Client(
         SESSION2,
@@ -119,8 +111,6 @@ if SESSION2 and SESSION2 != "None":
         parse_mode=ParseMode.HTML,
         in_memory=True
     )
-else:
-    app2 = None
 
 # ============================================
 # PyTgCalls Clients
@@ -128,22 +118,17 @@ else:
 print("🎵 Initializing voice clients...")
 
 call = PyTgCalls(app)
-if app2:
-    call2 = PyTgCalls(app2)
-else:
-    call2 = None
+call2 = PyTgCalls(app2) if app2 else None
 
 # ============================================
 # Startup Function
 # ============================================
 async def start_bot():
-    """Start the bot and all services"""
     try:
         print("\n" + "="*50)
         print("🚀 Starting Zaid VC Bot...")
         print("="*50 + "\n")
         
-        # Start Pyrogram clients
         print("📱 Connecting to Telegram...")
         await app.start()
         me = await app.get_me()
@@ -154,7 +139,6 @@ async def start_bot():
             me2 = await app2.get_me()
             print(f"  ✓ Second client: @{me2.username}")
         
-        # Start PyTgCalls clients
         print("\n🎵 Starting voice clients...")
         await call.start()
         print("  ✓ Voice client started")
@@ -167,7 +151,6 @@ async def start_bot():
         print("✅ Bot is now running!")
         print("="*50 + "\n")
         
-        # Keep the bot running
         await idle()
         
     except Exception as e:
@@ -177,10 +160,6 @@ async def start_bot():
     finally:
         # Cleanup
         print("\n🛑 Shutting down...")
-        
-        if call2:
-            await call2.stop()
-        await call.stop()
         
         if app2:
             await app2.stop()
@@ -192,16 +171,11 @@ async def start_bot():
 # Main Entry Point
 # ============================================
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    
     try:
-        loop.run_until_complete(start_bot())
+        asyncio.run(start_bot())
     except KeyboardInterrupt:
         print("\n👋 Bot stopped by user")
     except Exception as e:
         print(f"\n💥 Fatal error: {e}")
         LOGGER.exception("Fatal error")
         sys.exit(1)
-    finally:
-        loop.close()
