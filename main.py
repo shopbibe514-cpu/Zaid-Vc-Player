@@ -115,13 +115,13 @@ else:
     app2 = None
 
 # ============================================
-# PyTgCalls Clients
+# PyTgCalls Clients (Fixed: removed sleep_threshold)
 # ============================================
 print("🎵 Initializing voice clients...")
 
-call = PyTgCalls(app, sleep_threshold=60)
+call = PyTgCalls(app)  # Removed sleep_threshold
 if app2:
-    call2 = PyTgCalls(app2, sleep_threshold=60)
+    call2 = PyTgCalls(app2)  # Removed sleep_threshold
 else:
     call2 = None
 
