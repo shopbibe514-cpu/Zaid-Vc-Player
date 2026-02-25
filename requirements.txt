@@ -4,7 +4,7 @@ py-tgcalls==0.8.6
 pyrogram==2.0.106
 yt-dlp
 youtube-search-python
-youtube-search
+# youtube-search  # Optional, remove to avoid conflicts
 python-dotenv
 dnspython
 aiofiles
@@ -14,3 +14,6 @@ pillow
 motor
 psutil
 pymongo
+
+# Note: If your bot requires Node.js (for some VC features), 
+# make sure Node 15+ is installed in your environment.
