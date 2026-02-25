@@ -3,6 +3,14 @@ import sys
 import asyncio
 import time
 import subprocess
+import logging
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+LOGGER = logging.getLogger(__name__)
 
 # ============================================
 # CRITICAL: Force time synchronization first
@@ -115,13 +123,13 @@ else:
     app2 = None
 
 # ============================================
-# PyTgCalls Clients (Fixed: removed sleep_threshold)
+# PyTgCalls Clients
 # ============================================
 print("🎵 Initializing voice clients...")
 
-call = PyTgCalls(app)  # Removed sleep_threshold
+call = PyTgCalls(app)
 if app2:
-    call2 = PyTgCalls(app2)  # Removed sleep_threshold
+    call2 = PyTgCalls(app2)
 else:
     call2 = None
 
@@ -164,6 +172,7 @@ async def start_bot():
         
     except Exception as e:
         print(f"\n❌ Error during startup: {e}")
+        LOGGER.exception("Startup error")
         raise
     finally:
         # Cleanup
@@ -192,6 +201,7 @@ if __name__ == "__main__":
         print("\n👋 Bot stopped by user")
     except Exception as e:
         print(f"\n💥 Fatal error: {e}")
+        LOGGER.exception("Fatal error")
         sys.exit(1)
     finally:
         loop.close()
