@@ -1,6 +1,5 @@
 import os
 import sys
-import random
 import asyncio
 import time
 import subprocess
@@ -80,8 +79,6 @@ print(f"  ✓ Session: {SESSION_NAME}")
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 from pytgcalls import PyTgCalls, idle
-from Zaid.Database import db
-from Zaid.main import *
 
 # ============================================
 # Pyrogram Client Configuration
@@ -94,11 +91,11 @@ app = Client(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
-    sleep_threshold=60,           # Increased for better time sync
-    workers=20,                    # More workers for better performance
+    sleep_threshold=60,
+    workers=20,
     max_concurrent_transmissions=10,
     parse_mode=ParseMode.HTML,
-    in_memory=True                 # Don't use session files
+    in_memory=True
 )
 
 # Second client if available
