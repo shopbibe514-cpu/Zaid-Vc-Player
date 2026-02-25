@@ -1,8 +1,8 @@
-FROM python:3.10-slim
+FROM nikolaik/python-nodejs:python3.10-nodejs18
 
 # Install system dependencies
 RUN apt-get update -y && \
-    apt-get install -y ffmpeg tzdata && \
+    apt-get install -y ffmpeg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
